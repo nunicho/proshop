@@ -1,0 +1,5 @@
+usuario mongo: contaalonso
+
+password mongo: SaixavweJjJV0GNp
+
+mongodb+srv://contaalonso:SaixavweJjJV0GNp@cluster0.gbmanrl.mongodb.net/
