@@ -3,3 +3,6 @@ usuario mongo: contaalonso
 password mongo: SaixavweJjJV0GNp
 
 mongodb+srv://contaalonso:SaixavweJjJV0GNp@cluster0.gbmanrl.mongodb.net/
+
+
+//ProductScreen -  NOTA PERSONAL ---- Qué pasa si el ítem tiene muchas unidades en stock?
