@@ -1,11 +1,11 @@
 import React from "react";
 //import {Navbar, Nav, Container} from 'react-bootstrap'
+import { LinkContainer } from "react-router-bootstrap";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import {LinkContainer} from "react-router-bootstrap"; 
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import {useSelector} from "react-redux"
