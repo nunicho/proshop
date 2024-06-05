@@ -10,7 +10,7 @@ import Footer from "./components/Footer.jsx"
 const App = () => {
   return (
     <>
-      <Header />
+    <Header />
       <main className="py-3">
         <Container>
             <Outlet />

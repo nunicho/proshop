@@ -1,38 +1,43 @@
-import React from "react";
+import React, {useState} from "react";
 //import {Navbar, Nav, Container} from 'react-bootstrap'
 import { useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
-import NavDropdown from "react-bootstrap/NavDropdown";
+//import NavDropdown from "react-bootstrap/NavDropdown";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
-import {useSelector, useDispatch} from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import { useLogoutMutation } from "../slices/usersApiSlice";
-import {logout} from "../slices/authSlice"
+import { logout } from "../slices/authSlice";
 import logo from "../assets/logo.png";
-
 
 const Header = () => {
 
-  const {cartItems} = useSelector((state)=> state.cart)
-  const {userInfo} = useSelector((state) => state.auth);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Lo agregué yo por el error en SSR
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
+  const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [logoutApiCall] = useLogoutMutation()
+  const [logoutApiCall] = useLogoutMutation();
 
-  const logoutHandler = async () =>{
-   try {
-    await logoutApiCall().unwrap();
-    dispatch(logout())
-    navigate('/login')
-   } catch (err) {
-    console.log(err)
-   }
-  }
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <header>
@@ -50,29 +55,47 @@ const Header = () => {
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart /> Cart
-                  {
-                    cartItems.length > 0 && (
-                      <Badge pill bg='success' style={{marginLeft:'5px'}}>
-                         {cartItems.reduce((a, c)=> a + c.qty, 0)}
-                      </Badge>
-                    )
-                  }
+                  {cartItems.length > 0 && (
+                    <Badge pill bg="success" style={{ marginLeft: "5px" }}>
+                      {cartItems.reduce((a, c) => a + c.qty, 0)}
+                    </Badge>
+                  )}
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id='username'>
-                  <LinkContainer to='/profile'>
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
-                  </LinkContainer>
-                  <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
-              ) : ( <LinkContainer to="/login">
-                <Nav.Link>
-                  <FaUser /> Sign in
-                </Nav.Link>
-              </LinkContainer>) }
+                <li
+                  className={`nav-item dropdown ${dropdownOpen ? "show" : ""}`}
+                >
+                  <span
+                    className="nav-link dropdown-toggle"
+                    id="userDropdown"
+                    role="button"
+                    style={{ cursor: "pointer" }}
+                    onClick={toggleDropdown}
+                    aria-haspopup="true"
+                    aria-expanded={dropdownOpen ? "true" : "false"}
+                  >
+                    {userInfo.name}
+                  </span>
+                  <div
+                    className={`dropdown-menu ${dropdownOpen ? "show" : ""}`}
+                    aria-labelledby="userDropdown"
+                  >
+                    <LinkContainer to="/profile">
+                      <div className="dropdown-item">Profile</div>
+                    </LinkContainer>
+                    <div className="dropdown-item" onClick={logoutHandler}>
+                      Logout
+                    </div>
+                  </div>
+                </li>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <FaUser /> Sign in
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -83,28 +106,41 @@ const Header = () => {
 
 export default Header;
 
+
 /*
 import React from "react";
 //import {Navbar, Nav, Container} from 'react-bootstrap'
-import { LinkContainer } from "react-router-bootstrap";
+import { useNavigate } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import Badge from "react-bootstrap/Badge";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
+import { LinkContainer } from "react-router-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { logout } from "../slices/authSlice";
 import logo from "../assets/logo.png";
-import {useSelector} from "react-redux"
-
 
 const Header = () => {
+  const { cartItems } = useSelector((state) => state.cart);
+  const { userInfo } = useSelector((state) => state.auth);
 
-  const {cartItems} = useSelector((state)=> state.cart)
-  const {userInfo} = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const logoutHandler = () =>{
-    console.log('logout')
-  }
+  const [logoutApiCall] = useLogoutMutation();
+
+  const logoutHandler = async () => {
+    try {
+      await logoutApiCall().unwrap();
+      dispatch(logout());
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <header>
@@ -122,29 +158,29 @@ const Header = () => {
               <LinkContainer to="/cart">
                 <Nav.Link>
                   <FaShoppingCart /> Cart
-                  {
-                    cartItems.length > 0 && (
-                      <Badge pill bg='success' style={{marginLeft:'5px'}}>
-                         {cartItems.reduce((a, c)=> a + c.qty, 0)}
-                      </Badge>
-                    )
-                  }
+                  {cartItems.length > 0 && (
+                    <Badge pill bg="success" style={{ marginLeft: "5px" }}>
+                      {cartItems.reduce((a, c) => a + c.qty, 0)}
+                    </Badge>
+                  )}
                 </Nav.Link>
               </LinkContainer>
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id='username'>
-                  <LinkContainer to='/profile'>
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
-              ) : ( <LinkContainer to="/login">
-                <Nav.Link>
-                  <FaUser /> Sign in
-                </Nav.Link>
-              </LinkContainer>) }
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <FaUser /> Sign in
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
