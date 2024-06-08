@@ -6,3 +6,19 @@ mongodb+srv://contaalonso:SaixavweJjJV0GNp@cluster0.gbmanrl.mongodb.net/
 
 
 //ProductScreen -  NOTA PERSONAL ---- Qué pasa si el ítem tiene muchas unidades en stock?
+
+
+Paypal:
+
+CLIENT ID: ATR1BEcqne2m_JOj0ExMcablS2Ny7SUoAbBoemssa_oGP3D9bL9XFBvTPIRD84BLZA90PYM-zjbbu1e7
+
+SECRET KEY: EPXZc8ajtOZersby7ZxRlAIo0-qqjX1_yMLNImzS379W65cLQzdTms5xV0LmzTB4kuBv4Zc4oqA8rAuZ
+
+
+PACKAGES:
+
+BACKEND:
+
+
+FRONTEND:
+npm i @paypal/react-paypal-js
